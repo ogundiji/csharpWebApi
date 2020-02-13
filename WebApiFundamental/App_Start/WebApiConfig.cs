@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using WebApiFundamental.App_Start;
 
 namespace WebApiFundamental
 {
@@ -10,7 +11,7 @@ namespace WebApiFundamental
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
-
+            AutofacConfig.Register();
             // Web API routes
             config.MapHttpAttributeRoutes();
 
