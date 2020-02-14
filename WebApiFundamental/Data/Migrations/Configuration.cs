@@ -9,8 +9,7 @@
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = true;
-            MigrationsDirectory = @"Data\Migrations";
+            AutomaticMigrationsEnabled = false;
         }
 
         protected override void Seed(WebApiFundamental.Data.CampContext context)
