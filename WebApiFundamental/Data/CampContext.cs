@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using WebApiFundamental.Data.Entities;
 
 namespace WebApiFundamental.Data
 {
@@ -8,5 +9,10 @@ namespace WebApiFundamental.Data
         {   
 
         }
+
+        public DbSet<Camp> camps { get; set; }
+        public DbSet<Talk> talks { get; set; }
+        public DbSet<Speaker> speakers { get; set; }
+        public DbSet<Location> locations { get; set; }
     }
 }

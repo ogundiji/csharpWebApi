@@ -150,7 +150,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\AutofacConfig.cs" />
-    <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
@@ -185,6 +184,12 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Data\CampContext.cs" />
+    <Compile Include="Data\CampRepository.cs" />
+    <Compile Include="Data\Entities\Camp.cs" />
+    <Compile Include="Data\Entities\Location.cs" />
+    <Compile Include="Data\Entities\Speaker.cs" />
+    <Compile Include="Data\Entities\Talk.cs" />
+    <Compile Include="Data\ICampRepository.cs" />
     <Compile Include="Data\Migrations\Configuration.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
