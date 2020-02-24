@@ -2,6 +2,7 @@
 using Autofac.Integration.WebApi;
 using System.Reflection;
 using System.Web.Http;
+using WebApiFundamental.Data;
 
 namespace WebApiFundamental.App_Start
 {
@@ -22,12 +23,12 @@ namespace WebApiFundamental.App_Start
         private static void RegisterServices(ContainerBuilder bldr)
         {
 
-           // bldr.RegisterType<CampContext>()
-              //.InstancePerRequest();
+            bldr.RegisterType<CampContext>()
+           .InstancePerRequest();
 
-           // bldr.RegisterType<CampRepository>()
-             // .As<ICampRepository>()
-             //.InstancePerRequest();
+            bldr.RegisterType<CampRepository>()
+            .As<ICampRepository>()
+           .InstancePerRequest();
         }
 
     }
