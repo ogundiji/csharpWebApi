@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Autofac.Integration.WebApi;
+using AutoMapper;
 using System.Reflection;
 using System.Web.Http;
 using WebApiFundamental.Data;
@@ -22,6 +23,15 @@ namespace WebApiFundamental.App_Start
 
         private static void RegisterServices(ContainerBuilder bldr)
         {
+            var config = new MapperConfiguration(cfg =>
+              {
+                  cfg.AddProfile(new CampMappingProfile());
+              });
+            //register instances of automapper
+            bldr.RegisterInstance(config.CreateMapper())
+                .As<IMapper>()
+                .SingleInstance();
+
 
             bldr.RegisterType<CampContext>()
            .InstancePerRequest();
