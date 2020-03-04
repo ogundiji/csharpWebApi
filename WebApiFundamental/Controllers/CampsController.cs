@@ -7,7 +7,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using WebApiFundamental.Data;
-using WebApiFundamental.ViewModel;
+using WebApiFundamental.Models;
 
 namespace WebApiFundamental.Controllers
 {
@@ -23,12 +23,12 @@ namespace WebApiFundamental.Controllers
         }
 
         [Route()]
-        public async Task<IHttpActionResult> Get()
+        public async Task<IHttpActionResult> Get(bool includeTalks=false)
         {
             try
             {
-                var result = await _repository.GetAllCampsAsync();
-                return Ok(_mapper.Map<IEnumerable<CampViewModel>>(result));
+                var result = await _repository.GetAllCampsAsync(includeTalks);
+                return Ok(_mapper.Map<IEnumerable<CampModel>>(result));
             }
             catch(Exception ex)
             {
@@ -39,15 +39,15 @@ namespace WebApiFundamental.Controllers
         }
 
         [Route("{moniker}")]
-        public async Task<IHttpActionResult> Get(string moniker)
+        public async Task<IHttpActionResult> Get(string moniker, bool includeTalks = false)
         {
             try
             {
-               var result=await _repository.GetCampAsync(moniker);
+               var result=await _repository.GetCampAsync(moniker,includeTalks);
                 if (result == null)
                     return NotFound();
 
-                return Ok(_mapper.Map<CampViewModel>(result));
+                return Ok(_mapper.Map<CampModel>(result));
 
             }catch(Exception ex)
             {

@@ -1,10 +1,6 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using WebApiFundamental.Data.Entities;
-using WebApiFundamental.ViewModel;
+using WebApiFundamental.Models;
 
 namespace WebApiFundamental.Data
 {
@@ -12,7 +8,15 @@ namespace WebApiFundamental.Data
     {
         public CampMappingProfile()
         {
-            CreateMap<Camp, CampViewModel>();
+            //Any time that one of the member is not mapping then use formember
+            CreateMap<Camp, CampModel>()
+                .ForMember(x => x.Venue, opt => opt.MapFrom(x => x.Location.VenueName));
+            CreateMap<Talk, TalkModel>().
+                ForMember(x => x.Title, opt => opt.MapFrom(x => x.Title));
+            CreateMap<Speaker, SpeakerModel>();
+
+               
+
         }
     }
 }
