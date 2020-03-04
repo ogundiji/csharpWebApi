@@ -55,5 +55,23 @@ namespace WebApiFundamental.Controllers
             }
         }
 
+        [Route("SearchEventByDate/{eventDate:datetime}")]
+        [HttpGet]
+        public async Task<IHttpActionResult>SearchEventByDate(DateTime eventDate,bool includeTalks=false)
+        {
+            try
+            {
+                var result = await _repository.GetAllCampsByEventDate(eventDate, includeTalks);
+
+                return Ok(_mapper.Map<CampModel[]>(result));
+
+
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError();
+            }
+        }
+
     }
 }
