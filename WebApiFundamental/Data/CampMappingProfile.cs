@@ -10,7 +10,8 @@ namespace WebApiFundamental.Data
         {
             //Any time that one of the member is not mapping then use formember
             CreateMap<Camp, CampModel>()
-                .ForMember(x => x.Venue, opt => opt.MapFrom(x => x.Location.VenueName));
+                .ForMember(x => x.Venue, opt => opt.MapFrom(x => x.Location.VenueName))
+                .ReverseMap();
             CreateMap<Talk, TalkModel>().
                 ForMember(x => x.Title, opt => opt.MapFrom(x => x.Title));
             CreateMap<Speaker, SpeakerModel>();
