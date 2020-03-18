@@ -1,9 +1,6 @@
 ﻿using AutoMapper;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using WebApiFundamental.Data;
@@ -12,6 +9,7 @@ using WebApiFundamental.Models;
 
 namespace WebApiFundamental.Controllers
 {
+
     [RoutePrefix("api/camps")]
     public class CampsController : ApiController
     {
@@ -40,6 +38,7 @@ namespace WebApiFundamental.Controllers
            
         }
 
+        
         [Route("{moniker}", Name ="GetCamp")]
         public async Task<IHttpActionResult> Get(string moniker, bool includeTalks = false)
         {
@@ -56,6 +55,8 @@ namespace WebApiFundamental.Controllers
                 return InternalServerError();
             }
         }
+
+       
 
         [Route("SearchEventByDate/{eventDate:datetime}")]
         [HttpGet]

@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Serialization;
+﻿using Microsoft.Web.Http;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,9 @@ namespace WebApiFundamental
         {
             // Web API configuration and services
             AutofacConfig.Register();
+
+            //add versioning to asp.net web api
+          
 
             //serializing an web api with a config
             //changing the case of JSON
