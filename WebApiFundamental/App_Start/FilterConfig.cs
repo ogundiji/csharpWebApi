@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using System;
+using System.Web;
 using System.Web.Mvc;
 
 namespace WebApiFundamental
@@ -7,6 +8,8 @@ namespace WebApiFundamental
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
+            filters.Add(new Filters.HSTSAttribute(
+                TimeSpan.FromMinutes(5),true,false));
             filters.Add(new HandleErrorAttribute());
         }
     }

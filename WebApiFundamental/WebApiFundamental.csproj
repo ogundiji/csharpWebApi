@@ -19,7 +19,7 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort />
+    <IISExpressSSLPort>44343</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -237,6 +237,7 @@
     <Compile Include="Data\ICampRepository.cs" />
     <Compile Include="Data\Migrations\Configuration.cs" />
     <Compile Include="Data\provider\SimpleAuthorizationServerProvider.cs" />
+    <Compile Include="Filters\HSTSAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
