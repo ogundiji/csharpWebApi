@@ -20,5 +20,7 @@ namespace WebApiFundamental.Data
         public DbSet<Talk> talks { get; set; }
         public DbSet<Speaker> speakers { get; set; }
         public DbSet<Location> locations { get; set; }
+        public DbSet<Client> Clients { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
     }
 }

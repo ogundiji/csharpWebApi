@@ -1,4 +1,5 @@
-﻿using Microsoft.Owin.Security.OAuth;
+﻿using Microsoft.Owin.Security;
+using Microsoft.Owin.Security.OAuth;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,9 +19,6 @@ namespace WebApiFundamental.Data.provider
 
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
-
-            context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { "*" });
-
             using (AuthRepository _repo = new AuthRepository())
             {
                 ApplicationUser user = await _repo.FindUser(context.UserName, context.Password);
@@ -39,7 +37,14 @@ namespace WebApiFundamental.Data.provider
             context.Validated(identity);
 
         }
+
     }
+}
+    
+   
+
+
+   
     //public class SimpleAuthorizationServerProvider: OAuthAuthorizationServerProvider
     //{
     //    public override Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
@@ -53,4 +58,3 @@ namespace WebApiFundamental.Data.provider
     //    //}
 
     //}
-}

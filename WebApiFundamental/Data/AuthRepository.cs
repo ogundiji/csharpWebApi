@@ -43,8 +43,9 @@ namespace WebApiFundamental.Data
 
                 return user;
             }
+     
 
-            public void Dispose()
+        public void Dispose()
             {
                 _ctx.Dispose();
                 _userManager.Dispose();
