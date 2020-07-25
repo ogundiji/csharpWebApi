@@ -1,26 +1,23 @@
 ﻿using AutoMapper;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using WebApiFundamental.Data;
-using WebApiFundamental.Data.Entities;
-using WebApiFundamental.Models;
+using WebApiFundamental.Core.Data.Entities;
+using WebApiFundamental.Core.Models;
+using WebApiFundamental.Core.Repositories;
 
 namespace WebApiFundamental.Controllers
 {
     [RoutePrefix("api/camps/{moniker}/talks")]
     public class TalksController : ApiController
     {
-        private readonly ICampRepository _repository;
+        private readonly IUnitOfWork  unitOfWork;
         private readonly IMapper _mapper;
 
-        public TalksController(ICampRepository repository,IMapper mapper)
+        public TalksController(IUnitOfWork unitOfWork,IMapper mapper)
         {
-            _repository = repository;
+            this.unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
@@ -29,9 +26,9 @@ namespace WebApiFundamental.Controllers
         {
             try
             {
-                var result = await _repository.GetTalksByMonikerAsync(moniker,includeSpeakers);
+                var result = await unitOfWork.talk.GetTalksByMonikerAsync(moniker,includeSpeakers);
 
-                return Ok(_mapper.Map<IEnumerable<TalkModel>>(result));
+                return Ok(_mapper.Map<IEnumerable<TalkDto>>(result));
    
             }
             catch (Exception ex)
@@ -45,10 +42,10 @@ namespace WebApiFundamental.Controllers
         {
             try
             {
-                var result = await _repository.GetTalkByMonikerAsync(moniker, id,includeSpeakers);
+                var result = await unitOfWork.talk.GetTalkByMonikerAsync(moniker, id,includeSpeakers);
                 if (result == null) return NotFound();
 
-                return Ok(_mapper.Map<TalkModel>(result));
+                return Ok(_mapper.Map<TalkDto>(result));
             }
             catch (Exception ex)
             {
@@ -57,13 +54,13 @@ namespace WebApiFundamental.Controllers
         }
 
         [Route()]
-        public async Task<IHttpActionResult>Post(string moniker,TalkModel model)
+        public async Task<IHttpActionResult>Post(string moniker,TalkDto model)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    var camp = await _repository.GetCampAsync(moniker);
+                    var camp = await unitOfWork.camp.GetCampAsync(moniker);
                     if (camp != null)
                     {
                         var talk = _mapper.Map<Talk>(model);
@@ -72,20 +69,20 @@ namespace WebApiFundamental.Controllers
                         //map the speaker if necessary
                         if (model.Speaker != null)
                         {
-                            var speaker =await  _repository.GetSpeakerAsync(model.Speaker.SpeakerId);
+                            var speaker =await  unitOfWork.speaker.GetSpeakerAsync(model.Speaker.SpeakerId);
                             if (speaker != null)
                             {
                                 talk.Speaker = speaker;
                             }
                         }
-                        _repository.AddTalk(talk);
+                        unitOfWork.talk.AddTalk(talk);
 
 
-                        if(await _repository.SaveChangesAsync())
+                        if(await unitOfWork.SaveChangesAsync())
                         {
                             return CreatedAtRoute("GetTalk", 
                                 new { moniker = moniker, id = talk.TalkId }
-                            ,_mapper.Map<TalkModel>(talk));
+                            ,_mapper.Map<TalkDto>(talk));
                         }
                     }
                 }
@@ -98,26 +95,26 @@ namespace WebApiFundamental.Controllers
         }
 
         [Route("{talkId:int}")]
-        public async Task<IHttpActionResult>Put(string moniker,int talkId,TalkModel model)
+        public async Task<IHttpActionResult>Put(string moniker,int talkId,TalkDto model)
         {
             try
             {
-                var talk =await _repository.GetTalkByMonikerAsync(moniker, talkId, true);
+                var talk =await unitOfWork.talk.GetTalkByMonikerAsync(moniker, talkId, true);
                 if (talk == null) return NotFound();
 
                 
 
                 if (talk.Speaker.SpeakerId != model.Speaker.SpeakerId)
                 {
-                    var speaker = await _repository.GetSpeakerAsync(model.Speaker.SpeakerId);
+                    var speaker = await unitOfWork.speaker.GetSpeakerAsync(model.Speaker.SpeakerId);
                     if (speaker != null) talk.Speaker = speaker;
                 }
 
                 _mapper.Map(model, talk);
 
-                if (await _repository.SaveChangesAsync())
+                if (await unitOfWork.SaveChangesAsync())
                 {
-                    return Ok(_mapper.Map<TalkModel>(talk));
+                    return Ok(_mapper.Map<TalkDto>(talk));
                 }
 
 
@@ -135,12 +132,12 @@ namespace WebApiFundamental.Controllers
         {
             try
             {
-                var talk = await _repository.GetTalkByMonikerAsync(moniker, talkId);
+                var talk = await unitOfWork.talk.GetTalkByMonikerAsync(moniker, talkId);
                 if (talk == null) return NotFound();
 
-                _repository.DeleteTalk(talk);
+                unitOfWork.talk.DeleteTalk(talk);
 
-                if(await _repository.SaveChangesAsync())
+                if(await unitOfWork.SaveChangesAsync())
                 {
                     return Ok();
                 }

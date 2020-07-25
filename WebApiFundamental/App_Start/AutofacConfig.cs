@@ -3,7 +3,8 @@ using Autofac.Integration.WebApi;
 using AutoMapper;
 using System.Reflection;
 using System.Web.Http;
-using WebApiFundamental.Data;
+using WebApiFundamental.Core.Repositories;
+using WebApiFundamental.Persistence;
 
 namespace WebApiFundamental.App_Start
 {
@@ -36,8 +37,8 @@ namespace WebApiFundamental.App_Start
             bldr.RegisterType<CampContext>()
            .InstancePerRequest();
 
-            bldr.RegisterType<CampRepository>()
-            .As<ICampRepository>()
+            bldr.RegisterType<UnitOfWork>()
+            .As<IUnitOfWork>()
            .InstancePerRequest();
         }
 

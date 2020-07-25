@@ -1,24 +1,19 @@
 ﻿using Microsoft.AspNet.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using WebApiFundamental.Data;
-using WebApiFundamental.Data.Entities;
+using WebApiFundamental.Core.Data.Entities;
+using WebApiFundamental.Core.Repositories;
 
 namespace WebApiFundamental.Controllers
 {
         [RoutePrefix("api/Account")]
         public class AccountController : ApiController
         {
-            private AuthRepository _repo = null;
+            private IUnitOfWork unitOfWork;
 
-            public AccountController()
+            public AccountController(IUnitOfWork unitOfWork)
             {
-                _repo = new AuthRepository();
+               this.unitOfWork = unitOfWork;
             }
 
             // POST api/Account/Register
@@ -31,7 +26,7 @@ namespace WebApiFundamental.Controllers
                     return BadRequest(ModelState);
                 }
 
-                IdentityResult result = await _repo.RegisterUser(userModel);
+                IdentityResult result = await unitOfWork.auth.RegisterUser(userModel);
 
                 IHttpActionResult errorResult = GetErrorResult(result);
 
@@ -43,15 +38,6 @@ namespace WebApiFundamental.Controllers
                 return Ok();
             }
 
-            protected override void Dispose(bool disposing)
-            {
-                if (disposing)
-                {
-                    _repo.Dispose();
-                }
-
-                base.Dispose(disposing);
-            }
 
             private IHttpActionResult GetErrorResult(IdentityResult result)
             {

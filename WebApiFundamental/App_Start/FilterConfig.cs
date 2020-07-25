@@ -2,7 +2,7 @@
 using System.Web;
 using System.Web.Mvc;
 
-namespace WebApiFundamental
+namespace WebApiFundamental.Core.Filters
 {
     public class FilterConfig
     {

@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
-using WebApiFundamental.Data;
-using WebApiFundamental.Data.provider;
+using WebApiFundamental.Core.provider;
+using WebApiFundamental.Persistence;
 
 [assembly: OwinStartup(typeof(WebApiFundamental.Startup))]
 

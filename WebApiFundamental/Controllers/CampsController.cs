@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
-using WebApiFundamental.Data;
-using WebApiFundamental.Data.Entities;
-using WebApiFundamental.Models;
+using WebApiFundamental.Core.Data.Entities;
+using WebApiFundamental.Core.Models;
+using WebApiFundamental.Core.Repositories;
 
 namespace WebApiFundamental.Controllers
 {
@@ -13,11 +13,11 @@ namespace WebApiFundamental.Controllers
     [RoutePrefix("api/camps")]
     public class CampsController : ApiController
     {
-        private readonly ICampRepository _repository;
+        private readonly IUnitOfWork unitOfWork;
         private IMapper _mapper;
-        public CampsController(ICampRepository repository,IMapper mapper)
+        public CampsController(IUnitOfWork  unitOfWork,IMapper mapper)
         {
-            _repository = repository;
+            this.unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
@@ -26,9 +26,9 @@ namespace WebApiFundamental.Controllers
         {
             try
             {
-                var result = await _repository.GetAllCampsAsync(includeTalks);
+                var result = await unitOfWork.camp.GetAllCampsAsync(includeTalks);
 
-                return Ok(_mapper.Map<IEnumerable<CampModel>>(result));
+                return Ok(_mapper.Map<IEnumerable<CampDto>>(result));
             }
            catch(Exception ex)
             {
@@ -44,11 +44,11 @@ namespace WebApiFundamental.Controllers
         {
             try
             {
-               var result=await _repository.GetCampAsync(moniker,includeTalks);
+               var result=await unitOfWork.camp.GetCampAsync(moniker,includeTalks);
                 if (result == null)
                     return NotFound();
 
-                return Ok(_mapper.Map<CampModel>(result));
+                return Ok(_mapper.Map<CampDto>(result));
 
             }catch(Exception ex)
             {
@@ -64,11 +64,11 @@ namespace WebApiFundamental.Controllers
         {
             try
             {
-                var result = await _repository.GetAllCampsByEventDate(eventDate, includeTalks);
+                var result = await unitOfWork.camp.GetAllCampsByEventDate(eventDate, includeTalks);
                 if (result == null)
                     return NotFound();
 
-                return Ok(_mapper.Map<CampModel[]>(result));
+                return Ok(_mapper.Map<CampDto[]>(result));
             }
             catch (Exception ex)
             {
@@ -78,11 +78,11 @@ namespace WebApiFundamental.Controllers
 
         [Route("CreateCamp")]
         [HttpPost]
-        public async Task<IHttpActionResult>Post(CampModel model)
+        public async Task<IHttpActionResult>Post(CampDto model)
         {
             try
             {
-                if(await _repository.GetCampAsync(model.Moniker) != null)
+                if(await unitOfWork.camp.GetCampAsync(model.Moniker) != null)
                 {
                     ModelState.AddModelError("Moniker", "Moniker in Use");
                 }
@@ -90,11 +90,11 @@ namespace WebApiFundamental.Controllers
                 {
                     //do the reverse process of what we did during get
                     var camp = _mapper.Map<Camp>(model);
-                    _repository.AddCamp(camp);
+                    unitOfWork.camp.AddCamp(camp);
 
-                    if (await _repository.SaveChangesAsync())
+                    if (await unitOfWork.SaveChangesAsync())
                     {
-                        var newModel = _mapper.Map<CampModel>(camp);
+                        var newModel = _mapper.Map<CampDto>(camp);
                        
                         return CreatedAtRoute("GetCamp", new { moniker = newModel.Moniker }, newModel);
 
@@ -111,18 +111,18 @@ namespace WebApiFundamental.Controllers
 
 
         [Route("{moniker}")]
-        public async Task<IHttpActionResult>Put(string moniker,CampModel model)
+        public async Task<IHttpActionResult>Put(string moniker,CampDto model)
         {
             try
             {
-                var camp = await _repository.GetCampAsync(moniker);
+                var camp = await unitOfWork.camp.GetCampAsync(moniker);
                 if (camp == null) return NotFound();
 
                 _mapper.Map(model,camp);
 
-                if(await _repository.SaveChangesAsync())
+                if(await unitOfWork.SaveChangesAsync())
                 {
-                    return Ok(_mapper.Map<CampModel>(camp));
+                    return Ok(_mapper.Map<CampDto>(camp));
                 }
                 else
                 {
@@ -141,12 +141,12 @@ namespace WebApiFundamental.Controllers
         {
             try
             {
-                var camp = await _repository.GetCampAsync(moniker);
+                var camp = await unitOfWork.camp.GetCampAsync(moniker);
                 if (camp == null) return NotFound();
 
-                _repository.DeleteCamp(camp);
+                unitOfWork.camp.DeleteCamp(camp);
 
-                if(await _repository.SaveChangesAsync())
+                if(await unitOfWork.SaveChangesAsync())
                 {
                     return Ok();
                 }
