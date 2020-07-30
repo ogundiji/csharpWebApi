@@ -13,7 +13,7 @@ namespace WebApiFundamental.Persistence.Repository
         public class AuthRepository :IAuthRepository,IDisposable
         {
             private CampContext _ctx;
-
+         
 
             private UserManager<ApplicationUser> _userManager;
 
@@ -42,6 +42,19 @@ namespace WebApiFundamental.Persistence.Repository
 
                 return result;
             }
+            
+        public async Task ForgotUser(string email)
+        {
+            var user =await _userManager.FindByEmailAsync(email);
+            if (user == null)
+            {
+               // return Ok();
+            }
+
+            string code = await _userManager.GeneratePasswordResetTokenAsync(user.Id);
+            //await _userManager.SendEmailAsync(user.Id,user,b)
+
+        }
 
             public async Task<ApplicationUser> FindUser(string userName, string password)
             {

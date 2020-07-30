@@ -22,5 +22,6 @@ namespace WebApiFundamental.Persistence
         public DbSet<Location> locations { get; set; }
         public DbSet<Client> Clients { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
+        public DbSet<ErrorLogger> errorLoggers { get; set; }
     }
 }

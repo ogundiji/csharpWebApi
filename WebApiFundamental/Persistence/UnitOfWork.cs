@@ -15,6 +15,8 @@ namespace WebApiFundamental.Persistence
         public ISpeakerRepository speaker { get; private set; }
         public ICampRepository camp { get; private set; }
         public IAuthRepository auth { get; private set; }
+        public ILogRepository log { get; private set; }
+        public IEmailService em { get; private set; }
         public UnitOfWork(CampContext context)
         {
             _context = context;
@@ -22,6 +24,8 @@ namespace WebApiFundamental.Persistence
             speaker = new SpeakerRepository(_context);
             camp = new CampRepository(_context);
             auth = new AuthRepository(_context);
+            log = new LogRepository(_context);
+            em = new EmailServiceRepository();
         }
 
         public async Task<bool> SaveChangesAsync()

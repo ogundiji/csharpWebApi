@@ -12,6 +12,8 @@ namespace WebApiFundamental.Core.Repositories
         ISpeakerRepository speaker { get; }
         ITalkRepository talk { get; }
         IAuthRepository auth { get; }
+        ILogRepository log { get; }
+        IEmailService em { get; }
         Task<bool> SaveChangesAsync();
     }
 }
