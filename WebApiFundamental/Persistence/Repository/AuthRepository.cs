@@ -7,18 +7,20 @@ using System.Threading.Tasks;
 using System.Web;
 using WebApiFundamental.Core.Data.Entities;
 using WebApiFundamental.Core.Repositories;
+using WebApiFundamental.Core.ViewModel;
 
 namespace WebApiFundamental.Persistence.Repository
 {
         public class AuthRepository :IAuthRepository,IDisposable
         {
             private CampContext _ctx;
-         
+            private readonly IEmailService sc;
 
             private UserManager<ApplicationUser> _userManager;
 
             public AuthRepository()
             {
+                 sc = new EmailServiceRepository();
                 _ctx = new CampContext();
                 _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_ctx));
             }
@@ -43,20 +45,41 @@ namespace WebApiFundamental.Persistence.Repository
                 return result;
             }
             
-        public async Task ForgotUser(string email)
+        public async Task<bool> ForgotUser(string email)
         {
-            var user =await _userManager.FindByEmailAsync(email);
+            bool check = true;
+            var user = await _userManager.FindByEmailAsync(email);
             if (user == null)
             {
-               // return Ok();
+                check = false;
             }
-
             string code = await _userManager.GeneratePasswordResetTokenAsync(user.Id);
-            //await _userManager.SendEmailAsync(user.Id,user,b)
+            sc.SendEmail(user.Email, user.LastName, "Reset Password", $"Please reset your password by using this {code} ");
 
+            return check;
         }
 
-            public async Task<ApplicationUser> FindUser(string userName, string password)
+       
+        public async Task<bool> ResetPassword(ResetPasswordViewModel model)
+        {
+            bool check = false;
+            var user = await _userManager.FindByNameAsync(model.Email);
+            if (user == null)
+            {
+                check = false;
+            }
+
+            var result = await _userManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
+
+            if (result.Succeeded)
+            {
+                check = true;
+            }
+
+            return check;
+        }
+
+        public async Task<ApplicationUser> FindUser(string userName, string password)
             {
                 ApplicationUser user = await _userManager.FindAsync(userName, password);
 

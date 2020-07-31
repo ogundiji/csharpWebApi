@@ -243,6 +243,8 @@
     <Compile Include="Core\Repositories\ISpeakerRepository.cs" />
     <Compile Include="Core\Repositories\ITalkRepository.cs" />
     <Compile Include="Core\Repositories\IUnitOfWork.cs" />
+    <Compile Include="Core\ViewModel\ForgotPasswordViewModel.cs" />
+    <Compile Include="Core\ViewModel\ResetPasswordViewModel.cs" />
     <Compile Include="Persistence\ApplicationUserManager.cs" />
     <Compile Include="Persistence\Migrations\202007252136274_add-errorlogger.cs" />
     <Compile Include="Persistence\Migrations\202007252136274_add-errorlogger.designer.cs">

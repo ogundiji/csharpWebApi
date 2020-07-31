@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using WebApiFundamental.Core.Data.Entities;
 using WebApiFundamental.Core.Repositories;
+using WebApiFundamental.Core.ViewModel;
 
 namespace WebApiFundamental.Controllers
 {
@@ -38,10 +39,53 @@ namespace WebApiFundamental.Controllers
                 return Ok();
             }
 
-            
+
+        [Route("ForgotPassword")]
+        [HttpPost]
+        public async Task<IHttpActionResult> ForgotPassword(ForgotPasswordViewModel model)
+        {
+                bool check = false;
+                if (ModelState.IsValid)
+                {
+                    check=await unitOfWork.auth.ForgotUser(model.Email);
+
+                     if (check)
+                     {
+                       return Ok("Successfull");
+                     }
+                     else
+                     {
+                       return BadRequest("Not successfull");
+                     }
+                }
+
+            return BadRequest(ModelState);
+        } 
+
+        [Route("ResetPassword")]
+        [HttpPost]
+        public async Task<IHttpActionResult> ResetUserPassword(ResetPasswordViewModel model)
+        {
+            bool check = false;
+            if (ModelState.IsValid)
+            {
+                check =await unitOfWork.auth.ResetPassword(model);
+
+                if (check)
+                {
+                    return Ok("Password successfully reset");
+                }
+                else
+                {
+                    return BadRequest("password reset not successfull");
+                }
+            }
+
+            return BadRequest(ModelState);
+        }
 
 
-            private IHttpActionResult GetErrorResult(IdentityResult result)
+        private IHttpActionResult GetErrorResult(IdentityResult result)
             {
                 if (result == null)
                 {
@@ -69,5 +113,6 @@ namespace WebApiFundamental.Controllers
 
                 return null;
             }
+
         }
     }
