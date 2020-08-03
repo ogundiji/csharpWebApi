@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
 using WebApiFundamental.Core.Data.Entities;
+using WebApiFundamental.Core.Filters;
 using WebApiFundamental.Core.Models;
 using WebApiFundamental.Core.Repositories;
 

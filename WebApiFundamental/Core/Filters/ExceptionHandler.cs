@@ -14,10 +14,7 @@ namespace WebApiFundamental.Core.Filters
     public class ExceptionHandlerAttribute : FilterAttribute, IExceptionFilter
     {
         private readonly IUnitOfWork unitOfWork;
-        public ExceptionHandlerAttribute(IUnitOfWork unitOfWork)
-        {
-            this.unitOfWork = unitOfWork;
-        }
+       
         public Task ExecuteExceptionFilterAsync(HttpActionExecutedContext actionExecutedContext, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
