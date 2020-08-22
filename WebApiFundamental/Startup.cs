@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Threading.Tasks;
+using System.Web.Cors;
 using System.Web.Http;
 using Microsoft.Owin;
+using Microsoft.Owin.Cors;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
+using WebApiContrib.IoC.Ninject;
 using WebApiFundamental.Core.provider;
 using WebApiFundamental.Persistence;
 
@@ -14,10 +18,26 @@ namespace WebApiFundamental
     {
         public void Configuration(IAppBuilder app)
         {
+            ConfigureOAuthTokenGeneration(app);
+
             HttpConfiguration config = new HttpConfiguration();
             ConfigureOAuth(app);
             WebApiConfig.Register(config);
-            app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
+            config.DependencyResolver = new NinjectResolver(new Ninject.Web.Common.Bootstrapper().Kernel);
+
+            var globalpolicy = new CorsPolicy();
+            globalpolicy.AllowAnyHeader = true;
+            globalpolicy.AllowAnyOrigin = true;
+            globalpolicy.AllowAnyMethod = true;
+
+            app.UseCors(new Microsoft.Owin.Cors.CorsOptions
+            {
+                PolicyProvider = new CorsPolicyProvider
+                {
+                    PolicyResolver = context => Task.FromResult(globalpolicy)
+                }
+            });
+
             app.UseWebApi(config);
         }
 

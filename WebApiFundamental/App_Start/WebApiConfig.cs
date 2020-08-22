@@ -12,12 +12,8 @@ namespace WebApiFundamental
     {
         public static void Register(HttpConfiguration config)
         {
-            // Web API configuration and services
-            AutofacConfig.Register();
-
-            //add versioning to asp.net web api
           
-
+           
             //serializing an web api with a config
             //changing the case of JSON
             config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new
