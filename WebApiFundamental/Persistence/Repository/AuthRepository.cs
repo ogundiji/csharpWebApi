@@ -2,6 +2,7 @@
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -93,5 +94,10 @@ namespace WebApiFundamental.Persistence.Repository
                 _userManager.Dispose();
 
             }
+
+        public async Task<ApplicationUser> ViewUserDetails(string email)
+        {
+            return await _ctx.Users.FirstOrDefaultAsync(c => c.Email == email);
         }
+    }
     }

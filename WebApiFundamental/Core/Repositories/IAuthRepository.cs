@@ -11,5 +11,6 @@ namespace WebApiFundamental.Core.Repositories
          Task<ApplicationUser> FindUser(string userName, string password);
          Task<bool> ResetPassword(ResetPasswordViewModel model);
          Task<bool> ForgotUser(string email);
+         Task<ApplicationUser> ViewUserDetails(string email);
     }
 }

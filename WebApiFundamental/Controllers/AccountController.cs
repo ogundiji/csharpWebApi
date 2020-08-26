@@ -1,66 +1,92 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using AutoMapper;
+using Microsoft.AspNet.Identity;
 using System.Threading.Tasks;
 using System.Web.Http;
 using WebApiFundamental.Core.Data.Entities;
+using WebApiFundamental.Core.Model;
 using WebApiFundamental.Core.Repositories;
 using WebApiFundamental.Core.ViewModel;
 
 namespace WebApiFundamental.Controllers
 {
-        [RoutePrefix("api/Account")]
-        public class AccountController : ApiController
+    [RoutePrefix("api/Account")]
+    public class AccountController : ApiController
+    {
+        IMapper mapper;
+        private IUnitOfWork unitOfWork;
+
+        public AccountController(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            private IUnitOfWork unitOfWork;
+            this.unitOfWork = unitOfWork;
+            this.mapper = mapper;
+        }
 
-            public AccountController(IUnitOfWork unitOfWork)
+        // POST api/Account/Register
+        [AllowAnonymous]
+        [Route("Register")]
+        public async Task<IHttpActionResult> Register(UserModel userModel)
+        {
+            if (!ModelState.IsValid)
             {
-               this.unitOfWork = unitOfWork;
+                return BadRequest(ModelState);
             }
 
-            // POST api/Account/Register
-            [AllowAnonymous]
-            [Route("Register")]
-            public async Task<IHttpActionResult> Register(UserModel userModel)
+            IdentityResult result = await unitOfWork.auth.RegisterUser(userModel);
+
+            IHttpActionResult errorResult = GetErrorResult(result);
+
+            if (errorResult != null)
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-
-                IdentityResult result = await unitOfWork.auth.RegisterUser(userModel);
-
-                IHttpActionResult errorResult = GetErrorResult(result);
-
-                if (errorResult != null)
-                {
-                    return errorResult;
-                }
-
-                return Ok();
+                return errorResult;
             }
+
+            return Ok();
+        }
 
 
         [Route("ForgotPassword")]
         [HttpPost]
         public async Task<IHttpActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
-                bool check = false;
-                if (ModelState.IsValid)
-                {
-                    check=await unitOfWork.auth.ForgotUser(model.Email);
+            bool check = false;
+            if (ModelState.IsValid)
+            {
+                check = await unitOfWork.auth.ForgotUser(model.Email);
 
-                     if (check)
-                     {
-                       return Ok("Successfull");
-                     }
-                     else
-                     {
-                       return BadRequest("Not successfull");
-                     }
+                if (check)
+                {
+                    return Ok("Successfull");
                 }
+                else
+                {
+                    return BadRequest("Not successfull");
+                }
+            }
 
             return BadRequest(ModelState);
-        } 
+        }
+
+        [HttpGet]
+        [Route("ViewSingleUser/{email}")]
+        public async Task<IHttpActionResult> ViewSingleUserRecord(string email)
+        {
+            try
+            {
+                var polly = await unitOfWork.auth.ViewUserDetails(email);
+                if (polly == null)
+                    return NotFound();
+
+                return Ok(mapper.Map<ApplicationDTO>(polly));
+
+            }
+            catch
+            {
+                return InternalServerError();
+            }
+           
+
+
+        }
 
         [Route("ResetPassword")]
         [HttpPost]

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using WebApiFundamental.Core.Data.Entities;
+using WebApiFundamental.Core.Model;
 using WebApiFundamental.Core.Models;
 
 
@@ -20,6 +21,9 @@ namespace WebApiFundamental.Persistence
                 .ForMember(x=>x.Camp, opt=>opt.Ignore());
 
             CreateMap<Speaker, SpeakerDto>()
+                .ReverseMap();
+
+            CreateMap<ApplicationUser, ApplicationDTO>()
                 .ReverseMap();
         }
     }
