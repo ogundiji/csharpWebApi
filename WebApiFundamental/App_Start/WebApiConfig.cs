@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
-using WebApiFundamental.App_Start;
+using System.Web.Http.Cors;
 
 namespace WebApiFundamental
 {
@@ -12,8 +12,10 @@ namespace WebApiFundamental
     {
         public static void Register(HttpConfiguration config)
         {
-          
-           
+            //configure cors
+            var corsAttribute = new EnableCorsAttribute("http://localhost:8080", "Content-Type", "POST");
+            config.EnableCors(corsAttribute);
+
             //serializing an web api with a config
             //changing the case of JSON
             config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new
