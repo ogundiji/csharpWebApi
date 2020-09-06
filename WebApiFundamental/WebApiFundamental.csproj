@@ -248,6 +248,7 @@
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Core\Data\Entities\ErrorLogger.cs" />
     <Compile Include="Core\Filters\ExceptionHandler.cs" />
+    <Compile Include="Core\Model\ApplicationDTO.cs" />
     <Compile Include="Core\ViewModel\EmailAddress.cs" />
     <Compile Include="Core\ViewModel\EmailMessage.cs" />
     <Compile Include="Core\Repositories\IAuthRepository.cs" />

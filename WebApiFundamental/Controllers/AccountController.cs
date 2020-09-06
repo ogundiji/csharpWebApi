@@ -62,30 +62,30 @@ namespace WebApiFundamental.Controllers
                     return BadRequest("Not successfull");
                 }
             }
-
             return BadRequest(ModelState);
         }
 
+        
+        //api/Account/{email}
+       
+     
         [HttpGet]
-        [Route("ViewSingleUser/{email}")]
-        public async Task<IHttpActionResult> ViewSingleUserRecord(string email)
-        {
+        [Authorize]
+        [Route("{email}")]
+        public async Task<IHttpActionResult> Get(string email)
+        {     
             try
             {
+                email += "@gmail.com";
                 var polly = await unitOfWork.auth.ViewUserDetails(email);
                 if (polly == null)
                     return NotFound();
-
                 return Ok(mapper.Map<ApplicationDTO>(polly));
-
             }
             catch
             {
                 return InternalServerError();
             }
-           
-
-
         }
 
         [Route("ResetPassword")]

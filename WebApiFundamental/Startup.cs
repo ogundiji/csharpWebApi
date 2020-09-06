@@ -23,12 +23,13 @@ namespace WebApiFundamental
             HttpConfiguration config = new HttpConfiguration();
             ConfigureOAuth(app);
             WebApiConfig.Register(config);
-           /// config.DependencyResolver = new NinjectResolver(new Ninject.Web.Common.Bootstrapper().Kernel);
+            config.DependencyResolver = new NinjectResolver(new Ninject.Web.Common.Bootstrapper().Kernel);
 
             var globalpolicy = new CorsPolicy();
-            globalpolicy.Headers.Add("Content-Type");
+            globalpolicy.Headers.Add("*");
             globalpolicy.Origins.Add("http://localhost:8080");
-            globalpolicy.Methods.Add("POST");
+            globalpolicy.Methods.Add("*");
+            globalpolicy.SupportsCredentials = true;
 
             app.UseCors(new Microsoft.Owin.Cors.CorsOptions
             {

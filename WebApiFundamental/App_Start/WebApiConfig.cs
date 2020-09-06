@@ -13,7 +13,7 @@ namespace WebApiFundamental
         public static void Register(HttpConfiguration config)
         {
             //configure cors
-            var corsAttribute = new EnableCorsAttribute("http://localhost:8080", "Content-Type", "POST");
+            var corsAttribute = new EnableCorsAttribute("http://localhost:8080", "*", "*") { SupportsCredentials=true};
             config.EnableCors(corsAttribute);
 
             //serializing an web api with a config
