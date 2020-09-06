@@ -13,7 +13,8 @@ namespace WebApiFundamental.Core.Data.Entities
             [Required]
             [MaxLength(100)]
             public string LastName { get; set; }
-
-        
+            
+            [Required]
+            public bool active { get; set; }
     }
 }

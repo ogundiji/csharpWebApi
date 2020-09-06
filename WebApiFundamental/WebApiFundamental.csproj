@@ -264,6 +264,10 @@
     <Compile Include="Persistence\Migrations\202007252136274_add-errorlogger.designer.cs">
       <DependentUpon>202007252136274_add-errorlogger.cs</DependentUpon>
     </Compile>
+    <Compile Include="Persistence\Migrations\202009061423140_add-active.cs" />
+    <Compile Include="Persistence\Migrations\202009061423140_add-active.designer.cs">
+      <DependentUpon>202009061423140_add-active.cs</DependentUpon>
+    </Compile>
     <Compile Include="Persistence\Repository\AuthRepository.cs" />
     <Compile Include="Persistence\CampContext.cs" />
     <Compile Include="Persistence\CampMappingProfile.cs" />
@@ -356,6 +360,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Persistence\Migrations\202007252136274_add-errorlogger.resx">
       <DependentUpon>202007252136274_add-errorlogger.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Persistence\Migrations\202009061423140_add-active.resx">
+      <DependentUpon>202009061423140_add-active.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
