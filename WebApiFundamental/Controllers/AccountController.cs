@@ -24,11 +24,16 @@ namespace WebApiFundamental.Controllers
         // POST api/Account/Register
         [AllowAnonymous]
         [Route("Register")]
-        public async Task<IHttpActionResult> Register(UserModel userModel)
+        public async Task<IHttpActionResult> Register([FromBody]UserModel userModel)
         {
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid )
             {
                 return BadRequest(ModelState);
+            }
+
+            if (await unitOfWork.auth.CheckIfUserExist(userModel.Email))
+            {
+                return BadRequest("user account exist");
             }
 
             IdentityResult result = await unitOfWork.auth.RegisterUser(userModel);

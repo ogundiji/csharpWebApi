@@ -28,6 +28,15 @@ export default {
 
     },
     actions:{
+      async signUp(credentials){
+         console.log(credentials)
+         await axios.post('api/Account/Register',credentials,{
+            headers:{'Content-Type':'application/json'}
+         }).then((response)=>{
+           console.log(response)
+         })
+
+      },
        async signIn({ dispatch },credentials){
          let response = await axios.post('token',qs.stringify(credentials),{
           headers: { 'Content-Type': 'application/x-www-form-urlencoded'}

@@ -36,8 +36,8 @@ namespace WebApiFundamental.Persistence.Repository
                 {
                     FirstName=userModel.FirstName,
                     LastName=userModel.LastName,
-                    Email=userModel.UserName,
-                    UserName = userModel.UserName
+                    Email=userModel.Email,
+                    UserName = userModel.Email
                 };
 
                 var result = await _userManager.CreateAsync(user, userModel.Password);
@@ -98,6 +98,11 @@ namespace WebApiFundamental.Persistence.Repository
         public async Task<ApplicationUser> ViewUserDetails(string email)
         {
             return await _ctx.Users.FirstOrDefaultAsync(c => c.Email == email);
+        }
+
+        public async Task<bool> CheckIfUserExist(string email)
+        {
+            return await _ctx.Users.AnyAsync(x => x.Email == email);
         }
     }
     }
