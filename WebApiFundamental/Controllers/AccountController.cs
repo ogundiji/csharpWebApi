@@ -23,8 +23,9 @@ namespace WebApiFundamental.Controllers
 
         // POST api/Account/Register
         [AllowAnonymous]
+        [HttpPost]
         [Route("Register")]
-        public async Task<IHttpActionResult> Register([FromBody]UserModel userModel)
+        public async Task<IHttpActionResult> Register(UserModel userModel)
         {
             if (!ModelState.IsValid )
             {
@@ -45,7 +46,7 @@ namespace WebApiFundamental.Controllers
                 return errorResult;
             }
 
-            return Ok();
+            return Ok(new { responseCode = 200, responDescription="user success created"});
         }
 
 
@@ -76,12 +77,12 @@ namespace WebApiFundamental.Controllers
      
         [HttpGet]
         [Authorize]
-        [Route("{email}")]
+        [Route("{email}/")]
         public async Task<IHttpActionResult> Get(string email)
         {     
             try
             {
-                email += "@gmail.com";
+                //email += "@gmail.com";
                 var polly = await unitOfWork.auth.ViewUserDetails(email);
                 if (polly == null)
                     return NotFound();

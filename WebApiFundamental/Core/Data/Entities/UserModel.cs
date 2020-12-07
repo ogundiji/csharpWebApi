@@ -4,9 +4,9 @@ namespace WebApiFundamental.Core.Data.Entities
 {
     public class UserModel
     {
-          public string FirstName { get; set; }
+          public string Firstname { get; set; }
 
-          public string LastName { get; set; }
+          public string Lastname { get; set; }
 
             [Required]
             [DataType(DataType.EmailAddress)]

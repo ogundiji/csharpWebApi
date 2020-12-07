@@ -28,14 +28,16 @@ namespace WebApiFundamental.Persistence.Repository
             public AuthRepository(CampContext context)
             {
                  _ctx = context;
+                 _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_ctx));
             }
 
             public async Task<IdentityResult> RegisterUser(UserModel userModel)
             {
+                
                 ApplicationUser user = new ApplicationUser
                 {
-                    FirstName=userModel.FirstName,
-                    LastName=userModel.LastName,
+                    FirstName=userModel.Firstname,
+                    LastName=userModel.Lastname,
                     Email=userModel.Email,
                     UserName = userModel.Email
                 };

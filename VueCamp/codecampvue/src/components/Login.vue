@@ -55,7 +55,14 @@
                signIn:'auth/signIn'
            }),
            submit(){
-               this.signIn(this.credentials);
+               this.signIn(this.credentials).then(()=>{
+                   this.router.replace({
+                       name:'dashboard'
+                   })
+               }).catch(()=>{
+                  //we might update our validation
+                  console.log('failed');
+               })
            }
         }
     }

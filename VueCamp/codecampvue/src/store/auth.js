@@ -28,14 +28,16 @@ export default {
 
     },
     actions:{
-      async signUp(credentials){
-         console.log(credentials)
-         await axios.post('api/Account/Register',credentials,{
-            headers:{'Content-Type':'application/json'}
-         }).then((response)=>{
-           console.log(response)
+      async signUp(_,model){
+         await axios.post('api/Account/register',model);
+      },
+      async forgotpassword(_,model){
+         await (await axios.post('api/Account/ForgotPassword',model)).
+         then(resp=>{
+           console.log(resp.data);
+           if(resp.data=='Successfull')
+           this.$router.push({ name:'forgot-password'})
          })
-
       },
        async signIn({ dispatch },credentials){
          let response = await axios.post('token',qs.stringify(credentials),{
@@ -43,7 +45,7 @@ export default {
          });
          
          
-         var username=credentials.UserName.replace('@gmail.com','');
+         var username=credentials.UserName;
          var payload={'token':response.data.access_token,username:username}
         
          dispatch('attempt',payload)

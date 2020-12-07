@@ -1,6 +1,9 @@
 <template>
     <div class="vue-tempalte">
         <form @submit.prevent="checkform">
+            <div class="alert alert-info" v-show="message==null">
+                {{ message }}
+            </div>
             <p v-if="errors.length">
               <b>Please correct the following error(s):</b>
                  <ul>
@@ -12,29 +15,29 @@
                 <div class="col-md-6">
                     <div class="form-group">
                       <label>Last Name</label>
-                      <input type="text" class="form-control form-control-lg" v-model="credentials.Lastname" />
+                      <input type="text" class="form-control form-control-lg" v-model="model.Lastname" />
                     </div>
                 </div>
                  <div class="col-md-6">
                      <div class="form-group">
                         <label>First Name</label>
-                        <input type="text" class="form-control form-control-lg" v-model="credentials.Firstname" />
+                        <input type="text" class="form-control form-control-lg" v-model="model.Firstname" />
                      </div>
                 </div>
             </div>
         
             <div class="form-group">
                 <label>Email address</label>
-                <input type="email" class="form-control form-control-lg" v-model="credentials.Email"/>
+                <input type="email" class="form-control form-control-lg" v-model="model.Email"/>
             </div>
 
             <div class="form-group">
                 <label>Password</label>
-                <input type="password" class="form-control form-control-lg" v-model="credentials.Password" />
+                <input type="password" class="form-control form-control-lg" v-model="model.Password" />
             </div>
             <div class="form-group">
                 <span>
-                    <input type="checkbox"  v-model="credentials.active"/> <label>active</label>
+                    <input type="checkbox"  v-model="model.active"/> <label>active</label>
                 </span>
                 
             </div>
@@ -53,11 +56,13 @@
 
    import { mapActions } from 'vuex'
    
+   
     export default {
         data() {
             return {
                 errors:[],
-                credentials:{
+                message:'',
+                model:{
                     Firstname:'',
                     Lastname:'',
                     Email:'',
@@ -68,34 +73,37 @@
         },
         methods:{
               ...mapActions({
-               signUp:'auth/signUp'
+                signUp:'auth/signUp'
            }),
             checkform(){
-                if(this.credentials.Firstname && 
-                this.credentials.Lastname && this.credentials.Email
-                 && this.credentials.Password && this.credentials.active){
-
-                     console.log(this.credentials);
-                     this.signUp(this.credentials);
-                 }
+                if(this.model.Firstname && 
+                this.model.Lastname && this.model.Email
+                 && this.model.Password && this.model.active){
+                       
+                         this.signUp(this.model).then(()=>{
+                             this.message="Account successfully created";
+                         })
+                     }
+                  
+                 
                  
                 this.errors=[];
-                if(!this.credentials.Firstname){
+                if(!this.model.Firstname){
                   this.errors.push('First name required')
                 }
 
-                if(!this.credentials.Lastname){
+                if(!this.model.Lastname){
                   this.errors.push('Last name required')
                 }
-                if(!this.credentials.Email){
+                if(!this.model.Email){
                   this.errors.push('Email is required')
                 }
 
-                if(!this.credentials.Password){
+                if(!this.model.Password){
                   this.errors.push('password is required')
                 }
 
-                if(!this.credentials.active){
+                if(!this.model.active){
                   this.errors.push('active not checked');
                 }     
             }  
