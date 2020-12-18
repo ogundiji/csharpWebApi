@@ -1,7 +1,7 @@
 <template>
     <div class="vue-tempalte">
         <form @submit.prevent="checkform">
-            <div class="alert alert-info" v-show="message==null">
+            <div class="alert alert-info" v-show="message!=null">
                 {{ message }}
             </div>
             <p v-if="errors.length">
@@ -54,14 +54,14 @@
 
 <script>
 
-   import { mapActions } from 'vuex'
-   
+   import { mapActions } from 'vuex';
+   import { mapGetters } from 'vuex'
    
     export default {
         data() {
             return {
                 errors:[],
-                message:'',
+                message:null,
                 model:{
                     Firstname:'',
                     Lastname:'',
@@ -71,6 +71,11 @@
                 }
             }
         },
+        computed:{
+            ...mapGetters({
+               notification:'auth/notification'
+         })
+        },
         methods:{
               ...mapActions({
                 signUp:'auth/signUp'
@@ -79,9 +84,16 @@
                 if(this.model.Firstname && 
                 this.model.Lastname && this.model.Email
                  && this.model.Password && this.model.active){
-                       
                          this.signUp(this.model).then(()=>{
-                             this.message="Account successfully created";
+                             var notify=JSON.stringify(this.notification);
+                             if(notify){
+                                 this.message="successfully createed the account";
+                             }
+                             this.model.Firstname='';
+                             this.model.Lastname='';
+                             this.model.Email='';
+                             this.model.Password='';
+                             this.model.active=false;
                          })
                      }
                   

@@ -7,7 +7,8 @@ export default {
     state:{
         token:'',
         user:'',
-        username:''
+        username:'',
+        message:''
     },
     getters:{
        authenticate(state){
@@ -15,6 +16,9 @@ export default {
        },
        user(state){
         return state.user
+       },
+       notification(state){
+         return state.message
        }
     },
     mutations:{
@@ -24,17 +28,28 @@ export default {
          },
          SETUSER(state,data){
            state.user=data
+         },
+         SETMESSAGE(state,data){
+           state.message=data
          }
 
     },
     actions:{
-      async signUp(_,model){
-         await axios.post('api/Account/register',model);
+      async signUp({ dispatch },model){
+         let response=await axios.post('api/Account/register',model);
+
+       
+         dispatch('process',response);
+      },
+      async process({ commit },response){
+            if(response){
+              commit('SETMESSAGE',response)
+            }
       },
       async forgotpassword(_,model){
          await (await axios.post('api/Account/ForgotPassword',model)).
          then(resp=>{
-           console.log(resp.data);
+          
            if(resp.data=='Successfull')
            this.$router.push({ name:'forgot-password'})
          })
@@ -46,7 +61,10 @@ export default {
          
          
          var username=credentials.UserName;
-         var payload={'token':response.data.access_token,username:username}
+         var payload={
+           'token':response.data.access_token,
+           username:username
+          };
         
          dispatch('attempt',payload)
           
@@ -61,11 +79,13 @@ export default {
                return
              }
              try{
+               let p=btoa(payload.username);
+              let response = await axios.get(`/api/Account/${p}`)
               
-              let response=await axios.get(`api/Account/${payload.username}`)
-
               commit('SETUSER',response.data)
-
+              
+              
+              
              }catch(e){
                 console.log('Login Failed '+e)
                 commit('SETTOKEN',null)

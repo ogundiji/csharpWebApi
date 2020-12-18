@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNet.Identity;
+using System;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using WebApiFundamental.Core.Data.Entities;
@@ -71,19 +73,17 @@ namespace WebApiFundamental.Controllers
             return BadRequest(ModelState);
         }
 
-        
-        //api/Account/{email}
-       
      
         [HttpGet]
         [Authorize]
-        [Route("{email}/")]
+        [Route("{email}")]
         public async Task<IHttpActionResult> Get(string email)
         {     
             try
             {
-                //email += "@gmail.com";
-                var polly = await unitOfWork.auth.ViewUserDetails(email);
+                byte[] data = Convert.FromBase64String(email);
+                string decodedString = Encoding.UTF8.GetString(data);
+                var polly = await unitOfWork.auth.ViewUserDetails(decodedString);
                 if (polly == null)
                     return NotFound();
                 return Ok(mapper.Map<ApplicationDTO>(polly));

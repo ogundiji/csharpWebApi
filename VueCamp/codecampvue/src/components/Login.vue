@@ -38,7 +38,7 @@
 <script>
     
     import { mapActions } from 'vuex'
-   
+    import { mapGetters } from 'vuex'
 
     export default {
         data() {
@@ -50,18 +50,20 @@
                 }
             }
         },
+         computed:{ 
+            ...mapGetters({
+              authenticate:'auth/authenticate'
+         })
+        },
         methods:{
            ...mapActions({
                signIn:'auth/signIn'
            }),
            submit(){
                this.signIn(this.credentials).then(()=>{
-                   this.router.replace({
-                       name:'dashboard'
-                   })
-               }).catch(()=>{
-                  //we might update our validation
-                  console.log('failed');
+                  this.$router.push({
+                      name:'dashboard'
+                  })
                })
            }
         }
