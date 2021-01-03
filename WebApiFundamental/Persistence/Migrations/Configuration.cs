@@ -35,44 +35,44 @@
                       },
                       Length = 1,
                       Talks = new Talk[]
-                    {
-            new Talk
-            {
-              TalkId = 1,
-              Title = "Entity Framework From Scratch",
-              Abstract = "Entity Framework from scratch in an hour. Probably cover it all",
-              Level = 100,
-              Speaker = new Speaker
-              {
-                SpeakerId = 1,
-                FirstName = "Shawn",
-                LastName = "Wildermuth",
-                BlogUrl = "http://wildermuth.com",
-                Company = "Wilder Minds LLC",
-                CompanyUrl = "http://wilderminds.com",
-                GitHub = "shawnwildermuth",
-                Twitter = "shawnwildermuth"
-              }
-            },
-            new Talk
-            {
-              TalkId = 2,
-              Title = "Writing Sample Data Made Easy",
-              Abstract = "Thinking of good sample data examples is tiring.",
-              Level = 200,
-              Speaker = new Speaker
-              {
-                SpeakerId = 2,
-                FirstName = "Resa",
-                LastName = "Wildermuth",
-                BlogUrl = "http://shawnandresa.com",
-                Company = "Wilder Minds LLC",
-                CompanyUrl = "http://wilderminds.com",
-                GitHub = "resawildermuth",
-                Twitter = "resawildermuth"
-              }
-            }
-                    }
+                      {
+                        new Talk
+                        {
+                          TalkId = 1,
+                          Title = "Entity Framework From Scratch",
+                          Abstract = "Entity Framework from scratch in an hour. Probably cover it all",
+                          Level = 100,
+                          Speaker = new Speaker
+                          {
+                            SpeakerId = 1,
+                            FirstName = "Shawn",
+                            LastName = "Wildermuth",
+                            BlogUrl = "http://wildermuth.com",
+                            Company = "Wilder Minds LLC",
+                            CompanyUrl = "http://wilderminds.com",
+                            GitHub = "shawnwildermuth",
+                            Twitter = "shawnwildermuth"
+                          }
+                        },
+                        new Talk
+                        {
+                          TalkId = 2,
+                          Title = "Writing Sample Data Made Easy",
+                          Abstract = "Thinking of good sample data examples is tiring.",
+                          Level = 200,
+                          Speaker = new Speaker
+                          {
+                            SpeakerId = 2,
+                            FirstName = "Resa",
+                            LastName = "Wildermuth",
+                            BlogUrl = "http://shawnandresa.com",
+                            Company = "Wilder Minds LLC",
+                            CompanyUrl = "http://wilderminds.com",
+                            GitHub = "resawildermuth",
+                            Twitter = "resawildermuth"
+                          }
+                        }
+                      }
                   });
             }
         }

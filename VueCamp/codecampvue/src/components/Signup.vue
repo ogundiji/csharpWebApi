@@ -1,55 +1,61 @@
 <template>
+<div class="body">
     <div class="vue-tempalte">
-        <form @submit.prevent="checkform">
-            <div class="alert alert-info" v-show="message!=null">
-                {{ message }}
-            </div>
-            <p v-if="errors.length">
-              <b>Please correct the following error(s):</b>
-                 <ul>
-                    <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
-                 </ul>
-             </p>
-            <h3>Sign Up</h3>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                      <label>Last Name</label>
-                      <input type="text" class="form-control form-control-lg" v-model="model.Lastname" />
+         <div class="vertical-center">
+         <div class="inner-block"> 
+            <form @submit.prevent="checkform">
+                <div class="alert alert-info" v-show="message!=null">
+                    {{ message }}
+                </div>
+                <p v-if="errors.length">
+                <b>Please correct the following error(s):</b>
+                    <ul>
+                        <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
+                    </ul>
+                </p>
+                <h3>Sign Up</h3>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                        <label>Last Name</label>
+                        <input type="text" class="form-control form-control-lg" v-model="model.Lastname" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>First Name</label>
+                            <input type="text" class="form-control form-control-lg" v-model="model.Firstname" />
+                        </div>
                     </div>
                 </div>
-                 <div class="col-md-6">
-                     <div class="form-group">
-                        <label>First Name</label>
-                        <input type="text" class="form-control form-control-lg" v-model="model.Firstname" />
-                     </div>
+            
+                <div class="form-group">
+                    <label>Email address</label>
+                    <input type="email" class="form-control form-control-lg" v-model="model.Email"/>
                 </div>
-            </div>
-        
-            <div class="form-group">
-                <label>Email address</label>
-                <input type="email" class="form-control form-control-lg" v-model="model.Email"/>
-            </div>
 
-            <div class="form-group">
-                <label>Password</label>
-                <input type="password" class="form-control form-control-lg" v-model="model.Password" />
-            </div>
-            <div class="form-group">
-                <span>
-                    <input type="checkbox"  v-model="model.active"/> <label>active</label>
-                </span>
-                
-            </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" class="form-control form-control-lg" v-model="model.Password" />
+                </div>
+                <div class="form-group">
+                    <span>
+                        <input type="checkbox"  v-model="model.active"/> <label>active</label>
+                    </span>
+                    
+                </div>
 
-            <button type="submit" class="btn btn-dark btn-lg btn-block">Sign Up</button>
+                <button type="submit" class="btn btn-dark btn-lg btn-block">Sign Up</button>
 
-            <p class="forgot-password text-right">
-                Already registered 
-                <router-link :to="{name: 'login'}">sign in?</router-link>
-            </p>
-        </form>
+                <p class="forgot-password text-right">
+                    Already registered 
+                    <router-link :to="{name: 'login'}">sign in?</router-link>
+                </p>
+            </form>
+         </div>
+         </div>
     </div>
+</div>
 </template>
 
 <script>
@@ -122,3 +128,12 @@
         }
     }
 </script>
+<style scoped>
+ /* .body {
+    background: #2554FF !important ;
+    min-height: 100vh;
+    display: flex;
+    font-weight: 400;
+  } */
+
+</style>

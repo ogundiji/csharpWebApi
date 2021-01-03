@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿
+using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,6 +39,7 @@ namespace WebApiFundamental.Controllers
         }
 
 
+        //api/Speakers/CreateSpeaker
         [Route("CreateSpeaker")]
         public async Task<IHttpActionResult> Post(SpeakerDto model)
         {
@@ -54,7 +56,7 @@ namespace WebApiFundamental.Controllers
 
                         if (await unitOfWork.SaveChangesAsync())
                         {
-                            return CreatedAtRoute("GetSpeaker", new { id = sp.SpeakerId }, mapper.Map<SpeakerDto>(sp));
+                            return Ok(new { responseCode = 200, responseDescription = "Created Successfully" });
                         }
 
                     }
@@ -96,6 +98,7 @@ namespace WebApiFundamental.Controllers
         }
 
         [Route("{speakerId:int}")]
+        [HttpDelete]
         public async Task<IHttpActionResult>Delete(int speakerId)
         {
             try
@@ -107,7 +110,7 @@ namespace WebApiFundamental.Controllers
 
                 if(await unitOfWork.SaveChangesAsync())
                 {
-                    return Ok();
+                    return Ok(new { responseCode = 200, responseDescription = "Successfully deleted" });
                 }
                 else
                 {

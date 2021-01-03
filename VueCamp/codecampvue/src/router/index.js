@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-//import store from '../store'
+import store from '../store'
+import login from '../components/Login.vue'
 
 Vue.use(VueRouter)
 
@@ -18,7 +19,30 @@ Vue.use(VueRouter)
   {
     path:'/dashboard',
     name:'dashboard',
-    component:()=>import('../components/Dashboard.vue')
+    component:()=>import('../components/Dashboard.vue'),
+    beforeEnter:(to,from, next)=>{
+      if(!store.getters['auth/authenticated']){
+        return next({
+          name:login
+        })
+      }
+      next()
+   }
+  },
+  {
+      path:'/camp',
+      name:'camp',
+      component:()=>import('../components/Camp.vue')
+  },
+  {
+     path:'/talk',
+     name:'talk',
+     component:()=>import('../components/Talk.vue')
+  },
+  {
+     path:'/speaker',
+     name:'speaker',
+     component:()=>import('../components/Speakers.vue')
   },
 
   {

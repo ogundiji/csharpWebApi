@@ -5,11 +5,16 @@
 
     <!-- Main -->
     <div class="App">
-      <div class="vertical-center">
-        <div class="inner-block">
+          <TheNavigation/>
           <router-view />
-        </div>
-      </div>
     </div>
   </div>
 </template>
+<script>
+import TheNavigation from '@/components/TheNavigation'
+export default {
+  components:{
+    TheNavigation
+  }
+}
+</script>

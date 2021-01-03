@@ -8,6 +8,8 @@ require('@/store/subscriber')
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '@/assets/css/main.css'
+//import '@/assets/css/demo.css'
+
 
 axios.defaults.baseURL='http://localhost:51301';
 

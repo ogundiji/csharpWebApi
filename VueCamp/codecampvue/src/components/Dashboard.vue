@@ -1,5 +1,7 @@
 <template >
+   
     <div class="vue-tempalte">
+       
       <p>hello user</p>
     </div>
 </template>
@@ -16,3 +18,11 @@ export default {
     }
 }
 </script>
+  <style scoped>
+   body {
+    background:orange !important;
+    min-height: 100vh;
+    display: flex;
+    font-weight: 400;
+}
+        </style>
